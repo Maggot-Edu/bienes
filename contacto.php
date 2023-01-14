@@ -1,37 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¿Hablamos?</title>
-    <link rel="stylesheet" href="build/css/app.css">
-</head>
-<body>
-    
-    <header class="header">
-        <div class="contenedor contenido-header">
-            <div class="barra">
-                <a href="/">
-                    <img src="build/img/logo.svg" alt="logo de la empresa">
-                </a>
-                
-                <div class="mobile-menu">
-                    <img src="build/img/barras.svg" alt="Menu responsive">
-                </div>
-
-                <div class="derecha">
-                    <img class="dark-mode-boton" src="build/img/dark-mode.svg" alt="dark mode boton">
-                    <nav class="navegacion">
-                        <a href="nosotros.html">Nosotros</a>
-                        <a href="anuncios.html">Anuncios</a>
-                        <a href="blog.html">Blog</a>
-                        <a href="contacto.html">¿Hablamos?</a>
-                    </nav>
-                </div>
-            </div> <!--.barra-->
-        </div>
-    </header>
+<?php
+    include './includes/template/header.php';
+?>
 
     <main class="contenedor seccion contenido-centrado">
         <h1>Contacto</h1>
@@ -102,19 +71,7 @@
         </form>
     </main>
 
-    <footer class="footer seccion">
-        <div class="contenedor contenido-footer">
-            <nav class="navegacion">
-                <a href="nosotros.html">Nosotros</a>
-                <a href="anuncios.html">Anuncios</a>
-                <a href="blog.html">Blog</a>
-                <a href="contacto.html">¿Hablamos?</a>
-            </nav>
-        </div>
 
-        <p class="copyright">Todos los derechos reservados 2023 &copy;</p>
-    </footer>
-
-    <script src="build/js/bundle.min.js"></script>
-</body>
-</html>
+<?php
+    include './includes/template/footer.php';
+?>
