@@ -76,7 +76,7 @@
         }
 
         // Validar tamaño imagen a subir
-        $medida = 1000 * 100;
+        $medida = 1000 * 300;
         if ($imagen['size'] > $medida) {
             $errores[] = "La imagen es demasiado grande";
         }
