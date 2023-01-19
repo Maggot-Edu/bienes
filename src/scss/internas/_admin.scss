@@ -13,6 +13,10 @@
     &.exito {
         background-color: $verde;
     }
+
+    &.error-imagen{
+        background-color: $amarillo;
+    }
 }
 
 table.propiedades {
@@ -31,4 +35,8 @@ table.propiedades {
     .imagen_tabla {
         width: 15rem;
     }
+}
+
+.imagen-pequeña {
+    width: 20rem;
 }
