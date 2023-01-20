@@ -1,4 +1,9 @@
 <?php
+    require '../../includes/funciones.php';
+    $auth = estadoAutenticado();
+    if(!$auth) {
+        header('Location: /');
+    }
     require '../../includes/config/ddbb.php';
     $db = conexionDB();
 
@@ -110,11 +115,7 @@
                 header('Location: /admin?resultado=1');
             } 
         }
-
-
     }
-
-    require '../../includes/funciones.php';
     incluirTemplate( 'header' );
 ?> 
 

@@ -1,5 +1,9 @@
 <?php
-
+    require '../../includes/funciones.php';
+    $auth = estadoAutenticado();
+    if(!$auth) {
+        header('Location: /');
+    }
     // Validacion id valido no sql injeccion
     $id = $_GET['id'];
     $id = filter_var($id, FILTER_VALIDATE_INT);
@@ -131,8 +135,6 @@
 
 
     }
-
-    require '../../includes/funciones.php';
     incluirTemplate( 'header' );
 ?> 
 

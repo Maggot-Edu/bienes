@@ -1,5 +1,9 @@
 <?php
-
+    require '../includes/funciones.php';
+    $auth = estadoAutenticado();
+    if(!$auth) {
+        header('Location: /');
+    }
     // Importar conexion
     require '../includes/config/ddbb.php';
     $db = conexionDB();
@@ -33,7 +37,6 @@
     }
 
     // Incluye template
-    require '../includes/funciones.php';
     incluirTemplate( 'header' );
 ?>
 
