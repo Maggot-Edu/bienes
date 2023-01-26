@@ -1,6 +1,6 @@
 <?php
     // importar conexion
-    require 'includes/config/ddbb.php';
+    require 'includes/app.php';
     $db = conexionDB();
 
     $errores = [];
@@ -50,7 +50,7 @@
         }
     }
     // incluye header
-    require 'includes/funciones.php';
+
     incluirTemplate( 'header' );
 ?>
 

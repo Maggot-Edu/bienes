@@ -8,7 +8,7 @@
         header('Location: anuncios.php');
     }
     
-    require 'includes/config/ddbb.php';
+    require 'includes/app.php';
     $db = conexionDB();
     
     //consulta
@@ -21,7 +21,7 @@
     }
     $resultado = mysqli_fetch_assoc($resultados);
 
-    require 'includes/funciones.php';
+
     incluirTemplate( 'header' );
 ?>
 

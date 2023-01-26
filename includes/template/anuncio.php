@@ -1,6 +1,6 @@
 <?php
     // Importar conexion
-    require __DIR__.'/../config/ddbb.php'; // require 'includes/config/ddbb.php';
+
     $db = conexionDB();
 
     // Consulta

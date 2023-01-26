@@ -1,4 +1,9 @@
 <?php
 
-define('TEMPLATES_URL', __DIR__ . '/template');
-define('FUNCIONES_URL', __DIR__ . 'funciones.php');
+require 'funciones.php';
+require 'config/ddbb.php';
+require __DIR__. '/../vendor/autoload.php';
+
+use App\Propiedad;
+
+$propiedad = new Propiedad;

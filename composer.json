@@ -1,0 +1,21 @@
+{
+    "name": "usuario/bienes",
+    "description": "Proyecto POO",
+    "autoload": {
+        "psr-4": {
+            "Usuario\\Bienes\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Eduard",
+            "email": "edu@edu.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\" : "./classes"
+        }
+    }
+}
