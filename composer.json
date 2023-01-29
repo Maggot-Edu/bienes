@@ -1,15 +1,11 @@
 {
-    "name": "usuario/bienes",
-    "description": "Proyecto POO",
-    "autoload": {
-        "psr-4": {
-            "Usuario\\Bienes\\": "src/"
-        }
-    },
+    "name": "eduard/bienes",
+    "description": "Proyecto POO clases",
+    "type": "project",
     "authors": [
         {
             "name": "Eduard",
-            "email": "edu@edu.com"
+            "email": "eduardbadoyan@gmail.com"
         }
     ],
     "require": {},
@@ -19,3 +15,4 @@
         }
     }
 }
+
