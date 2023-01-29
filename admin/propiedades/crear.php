@@ -1,10 +1,12 @@
 <?php
-    require '../../includes/funciones.php';
+    require '../../includes/app.php';
+
+    use App\Propiedad;
+
     $auth = estadoAutenticado();
     if(!$auth) {
         header('Location: /');
     }
-    require '../../includes/config/ddbb.php';
     $db = conexionDB();
 
     // Consultar para obtener vendedores de bbdd
@@ -26,21 +28,11 @@
     // inserta datos bbdd
     if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
 
-        // $num = "95hola2";
-        // $num2 = "sdfsdf";
-        // // Sanitizar
-        // $resultado = filter_var($num, FILTER_SANITIZE_NUMBER_INT);
-        // $resultado = filter_var($num2, FILTER_VALIDATE_INT);
-        //var_dump($resultado);
+        $propiedad = new Propiedad($_POST);
 
-        // echo "<pre>";
-        // var_dump($_POST);
-        // echo "<pre>";
-
-        // echo "<pre>";
-        // var_dump($_FILES);
-        // echo "<pre>";
-
+        $propiedad->guardar();
+        
+        debuguear($propiedad);
 
         $titulo         = mysqli_real_escape_string( $db,  $_POST['titulo'] );
         $precio         = mysqli_real_escape_string( $db,  $_POST['precio'] );

@@ -10,9 +10,16 @@ function incluirTemplate( string $nombre, bool $inicio = false ) {
 
 function estadoAutenticado() :bool {
     session_start();
-    $auth = $_SESSION['login'];
-    if($auth) {
+
+    if($_SESSION['login']) {
         return true;
     }
     return false;
+}
+
+function debuguear( $var ) {
+    echo "<pre>";
+    var_dump($var);
+    echo "</pre>";
+    exit;
 }

@@ -7,9 +7,7 @@
 
     // Autenticcar usuario
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        echo "<pre>";
-        var_dump($_POST);
-        echo "</pre>";
+
 
         $email = mysqli_real_escape_string( $db, filter_var( $_POST['email'], FILTER_VALIDATE_EMAIL) );
         $password = mysqli_real_escape_string( $db, $_POST['password'] );
