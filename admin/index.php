@@ -1,11 +1,11 @@
 <?php
-    require '../includes/app.php';
+    require '../includes/funciones.php';
     $auth = estadoAutenticado();
     if(!$auth) {
         header('Location: /');
     }
     // Importar conexion
-    //require '../includes/config/ddbb.php';
+    require '../includes/config/ddbb.php';
     $db = conexionDB();
     // Escribir Consulta
     $query = "SELECT * FROM propiedades";
@@ -50,7 +50,7 @@
             <p class="alerta exito">Anuncio Eliminado correctamente</p>
         <?php endif; ?>
         <br>
-        <a href="/bienes/admin/propiedades/crear.php" class="boton boton-verde">Nueva 
+        <a href="/admin/propiedades/crear.php" class="boton boton-verde">Nueva 
             Propiedad
         </a>
         <br>
@@ -70,7 +70,7 @@
                 <tr>
                     <td><?php echo $propiedad['id']; ?></td> 
                     <td><?php echo $propiedad['titulo']; ?></td>
-                    <td><img src="/bienes/imagenes/<?php echo $propiedad['imagen']; ?>" alt="<?php $propiedad['titulo']; ?>" class="imagen_tabla"></td>
+                    <td><img src="/imagenes/<?php echo $propiedad['imagen']; ?>" alt="<?php $propiedad['titulo']; ?>" class="imagen_tabla"></td>
                     <td><?php echo $propiedad['precio'] . "€"; ?></td>
                     <td>
                         <form method="POST" class="w-100">
@@ -80,7 +80,7 @@
                             <input type="submit" class="boton-rojo-block" value="Eliminar">
                         </form>
 
-                        <a href="/bienes/admin/propiedades/actualizar.php?id=<?php echo $propiedad['id'] ?>" class="boton-amarillo-block" >Actualizar</a>
+                        <a href="admin/propiedades/actualizar.php?id=<?php echo $propiedad['id'] ?>" class="boton-amarillo-block" >Actualizar</a>
                     </td>
                 </tr>
                 <?php endwhile; ?>

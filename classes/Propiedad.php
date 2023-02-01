@@ -18,16 +18,12 @@ class Propiedad {
     public $creado;
     public $vendedores_id;
 
-    public static function setDDBB($baseDatos){
-        self::$db = $baseDatos;
-    }
-
     public function __construct( $args = [] )
     {
         $this->id =            $args['id'] ?? '';
         $this->titulo =        $args['titulo'] ?? '';
         $this->precio =        $args['precio'] ?? '';
-        $this->imagen =        $args['imagen'] ?? '';
+        $this->imagen =        $args['imagen'] ?? 'imagen.jpg';
         $this->descripcion =   $args['descripcion'] ?? '';
         $this->habitaciones =  $args['habitaciones'] ?? '';
         $this->wc =            $args['wc'] ?? '';
@@ -37,22 +33,15 @@ class Propiedad {
     }
 
     public function guardar() {
+        $query = "INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, parking, creado, vendedores_id)
+                  VALUES ( '$this->titulo', $this->precio, '$this->imagen', '$this->descripcion', '$this->habitaciones', '$this->wc', '$this->parking', '$this->creado', '$this->vendedores_id' )";
+        
 
         // Sanirtizar Datos
         $atributos = $this->sanitizarAtributos();
 
         $resultado = self::$db->query($query);
-        //debuguear($resultado);
-        return $resultado;
-    }
-    // Identificar atributos de BBDD
-    public function atributos() {
-        $atributos = [];
-        foreach(self::$columnasDB as $columna) {
-            if($columna === 'id') continue;
-            $atributos[$columna] = $this->$columna;
-        }
-        return $atributos;
+        debuguear($resultado);
     }
 
     public function sanitizarAtributos() {

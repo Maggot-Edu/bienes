@@ -17,7 +17,7 @@
 
     <div class="anuncio">
 
-        <img loading="lazy" src="/bienes/imagenes/<?php echo $propiedad['imagen']; ?>" alt="Anuncio 1">
+        <img loading="lazy" src="/imagenes/<?php echo $propiedad['imagen']; ?>" alt="Anuncio 1">
 
         <div class="contenido-anuncio">
             <h3><?php echo $propiedad['titulo']; ?></h3>
@@ -25,15 +25,15 @@
             <p class="precio"><?php echo $propiedad['precio']; ?>€</p>
             <ul class="iconos-caracteristicas">
                 <li>
-                    <img class="icono" src="/bienes/build/img/icono_wc.svg" alt="icono wc" loading="lazy">
+                    <img class="icono" src="build/img/icono_wc.svg" alt="icono wc" loading="lazy">
                     <p><?php echo $propiedad['wc']; ?></p>
                 </li>
                 <li>
-                    <img class="icono" src="/bienes/build/img/icono_estacionamiento.svg" alt="icono parking" loading="lazy">
+                    <img class="icono" src="build/img/icono_estacionamiento.svg" alt="icono parking" loading="lazy">
                     <p><?php echo $propiedad['habitaciones']; ?></p>
                 </li>
                 <li>
-                    <img class="icono" src="/bienes/build/img/icono_dormitorio.svg" alt="icono habitaciones" loading="lazy">
+                    <img class="icono" src="build/img/icono_dormitorio.svg" alt="icono habitaciones" loading="lazy">
                     <p><?php echo $propiedad['parking']; ?></p>
                 </li>
             </ul>

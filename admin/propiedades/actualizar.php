@@ -129,7 +129,7 @@
 
             if ($resultado) {
                 // Redireccion de usuario
-                header('Location: /bienes/admin');
+                header('Location: /admin?resultado=2');
             } 
         }
 
@@ -141,7 +141,7 @@
     <main class="contenedor seccion contenido-centrado">
         <h1>Actualizar propiedad</h1>
 
-        <a href="/bienes/admin" class="boton boton-verde">Volver</a>
+        <a href="/admin" class="boton boton-verde">Volver</a>
         <br>
 
         <?php foreach ($errores as $error) : ?>
