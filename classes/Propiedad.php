@@ -6,10 +6,6 @@ class Propiedad {
 
     //BBDD
     protected static $db;
-    protected static $columnasDB = ['id', 'titulo', 'precio', 'imagen', 'descripcion', 'habitaciones', 'wc', 'parking', 'creado', 'vendedores_id'];
-
-    //Errores
-    protected static $errores = [];
 
     public $id;
     public $titulo;
@@ -45,13 +41,6 @@ class Propiedad {
         // Sanirtizar Datos
         $atributos = $this->sanitizarAtributos();
 
-        // Insertar datos
-        $query = "INSERT INTO propiedades ( ";
-        $query .= join(', ', array_keys($atributos));
-        $query .= " ) VALUES (' ";
-        $query .= join("', ' ", array_values($atributos));
-        $query .= " ')";
-        //debuguear($query);
         $resultado = self::$db->query($query);
         //debuguear($resultado);
         return $resultado;
@@ -86,34 +75,17 @@ class Propiedad {
     public static function getErrores() {
         return self::$errores;
     }
+    // Identificar atributos de BBDD
+    public function atributos() {
+        $atributos = [];
+        foreach(self::$columnasDB as $columna) {
+            if($columna === 'id') continue;
+            $atributos[$columna] = $this->$columna;
+        }
+        return $atributos;
+    }
 
-    public function validar() {
-                // Validador de datos
-                if (!$this->titulo) {
-                    self::$errores[] = "Debes añadir un titulo";
-                }
-                if (!$this->precio) {
-                    self::$errores[] = "Debes añadir un precio";
-                }
-                if ( strlen( $this->descripcion ) < 50) {
-                    self::$errores[] = "Debes añadir una descripción con mas de 50 caracteres";
-                }
-                if (!$this->habitaciones) {
-                    self::$errores[] = "Debes añadir numero de habitaciones";
-                }
-                if (!$this->wc) {
-                    self::$errores[] = "Debes añadir numero de wc";
-                }
-                if (!$this->parking) {
-                    self::$errores[] = "Debes añadir numero de parking";
-                }
-                if (!$this->vendedores_id) {
-                    self::$errores[] = "Debes elegir un vendedores";
-                }
-                if (!$this->imagen) {
-                    self::$errores[] = "La imagen es obligatoria";
-                }
-
-                return self::$errores;
+    public static function setDDBB($baseDatos){
+        self::$db = $baseDatos;
     }
 }
