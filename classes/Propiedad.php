@@ -6,6 +6,10 @@ class Propiedad {
 
     //BBDD
     protected static $db;
+    protected static $columnasDB = ['id', 'titulo', 'precio', 'imagen', 'descripcion', 'habitaciones', 'wc', 'parking', 'creado', 'vendedores_id'];
+
+    //Errores
+    protected static $errores = [];
 
     public $id;
     public $titulo;
@@ -18,12 +22,16 @@ class Propiedad {
     public $creado;
     public $vendedores_id;
 
+    public static function setDDBB($baseDatos){
+        self::$db = $baseDatos;
+    }
+
     public function __construct( $args = [] )
     {
         $this->id =            $args['id'] ?? '';
         $this->titulo =        $args['titulo'] ?? '';
         $this->precio =        $args['precio'] ?? '';
-        $this->imagen =        $args['imagen'] ?? 'imagen.jpg';
+        $this->imagen =        $args['imagen'] ?? '';
         $this->descripcion =   $args['descripcion'] ?? '';
         $this->habitaciones =  $args['habitaciones'] ?? '';
         $this->wc =            $args['wc'] ?? '';
@@ -33,15 +41,79 @@ class Propiedad {
     }
 
     public function guardar() {
-        $query = "INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, parking, creado, vendedores_id)
-                  VALUES ( '$this->titulo', $this->precio, '$this->imagen', '$this->descripcion', '$this->habitaciones', '$this->wc', '$this->parking', '$this->creado', '$this->vendedores_id' )";
-        
 
+        // Sanirtizar Datos
+        $atributos = $this->sanitizarAtributos();
+
+        // Insertar datos
+        $query = "INSERT INTO propiedades ( ";
+        $query .= join(', ', array_keys($atributos));
+        $query .= " ) VALUES (' ";
+        $query .= join("', ' ", array_values($atributos));
+        $query .= " ')";
+        //debuguear($query);
         $resultado = self::$db->query($query);
-        debuguear($resultado);
+        //debuguear($resultado);
+        return $resultado;
+    }
+    // Identificar atributos de BBDD
+    public function atributos() {
+        $atributos = [];
+        foreach(self::$columnasDB as $columna) {
+            if($columna === 'id') continue;
+            $atributos[$columna] = $this->$columna;
+        }
+        return $atributos;
     }
 
-    public static function setDDBB($baseDatos){
-        self::$db = $baseDatos;
+    public function sanitizarAtributos() {
+        $atributos = $this->atributos();
+        $sanitizado = [];
+        foreach($atributos as $key => $value){
+            $sanitizado[$key] = self::$db->escape_string($value);
+        }
+        return $sanitizado;
+    }
+    // Subir imagen
+    public function setImagen($imagen) {
+        // Asigna al atributo de imagen el nombre de la imagen
+        if($imagen) {
+            $this->imagen = $imagen;
+        }
+    }
+
+    // Validacion
+    public static function getErrores() {
+        return self::$errores;
+    }
+
+    public function validar() {
+                // Validador de datos
+                if (!$this->titulo) {
+                    self::$errores[] = "Debes añadir un titulo";
+                }
+                if (!$this->precio) {
+                    self::$errores[] = "Debes añadir un precio";
+                }
+                if ( strlen( $this->descripcion ) < 50) {
+                    self::$errores[] = "Debes añadir una descripción con mas de 50 caracteres";
+                }
+                if (!$this->habitaciones) {
+                    self::$errores[] = "Debes añadir numero de habitaciones";
+                }
+                if (!$this->wc) {
+                    self::$errores[] = "Debes añadir numero de wc";
+                }
+                if (!$this->parking) {
+                    self::$errores[] = "Debes añadir numero de parking";
+                }
+                if (!$this->vendedores_id) {
+                    self::$errores[] = "Debes elegir un vendedores";
+                }
+                if (!$this->imagen) {
+                    self::$errores[] = "La imagen es obligatoria";
+                }
+
+                return self::$errores;
     }
 }

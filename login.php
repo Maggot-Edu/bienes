@@ -38,7 +38,7 @@
                     $_SESSION['usuario'] = $usuario['email'];
                     $_SESSION['login'] = true;
 
-                    header('Location: /admin');
+                    header('Location: admin');
                 } else {
                     $errores[] = "Password es incorrecto";
                 }
@@ -48,7 +48,6 @@
         }
     }
     // incluye header
-
     incluirTemplate( 'header' );
 ?>
 

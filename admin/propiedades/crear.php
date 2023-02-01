@@ -2,6 +2,7 @@
     require '../../includes/app.php';
 
     use App\Propiedad;
+    use Intervention\Image\ImageManagerStatic as Image;
 
     $auth = estadoAutenticado();
     if(!$auth) {
@@ -14,7 +15,7 @@
     $resultado = mysqli_query($db, $consulta);
 
     //array mensaje errores
-    $errores = [];
+    $errores = Propiedad::getErrores();
 
     $titulo         = '';
     $precio         = '';
@@ -27,84 +28,34 @@
 
     // inserta datos bbdd
     if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
-
+        //Crea una nueva instancia
         $propiedad = new Propiedad($_POST);
+        /* Subida de archivos*/
 
-        $propiedad->guardar();
-        
-        debuguear($propiedad);
-
-        $titulo         = mysqli_real_escape_string( $db,  $_POST['titulo'] );
-        $precio         = mysqli_real_escape_string( $db,  $_POST['precio'] );
-        $imagen         = mysqli_real_escape_string( $db,  $_POST['imagen'] );
-        $descripcion    = mysqli_real_escape_string( $db,  $_POST['descripcion'] );
-        $habitaciones   = mysqli_real_escape_string( $db,  $_POST['habitaciones'] );
-        $wc             = mysqli_real_escape_string( $db,  $_POST['wc'] );
-        $parking        = mysqli_real_escape_string( $db,  $_POST['parking'] );
-        $vendedores_id  = mysqli_real_escape_string( $db,  $_POST['vendedores_id'] );
-        $creado         = date('Y/m/d');
-        // Asignart fuiles hacia variable
-        $imagen = $_FILES['imagen'];
-
-        // Validador de datos
-        if (!$titulo) {
-            $errores[] = "Debes añadir un titulo";
-        }
-        if (!$precio) {
-            $errores[] = "Debes añadir un precio";
-        }
-        if ( strlen( $descripcion ) < 50) {
-            $errores[] = "Debes añadir una descripción con mas de 50 caracteres";
-        }
-        if (!$habitaciones) {
-            $errores[] = "Debes añadir numero de habitaciones";
-        }
-        if (!$wc) {
-            $errores[] = "Debes añadir numero de wc";
-        }
-        if (!$parking) {
-            $errores[] = "Debes añadir numero de parking";
-        }
-        if (!$vendedores_id) {
-            $errores[] = "Debes elegir un vendedores";
-        }
-        if (!$imagen['name'] || $imagen['error']) {
-            $errores[] = "La imagen es obligatoria";
+        //generar nombre unico
+        $nombreImagen = md5( uniqid( rand(), true ) ) . ".jpg";
+        if ($_FILES['imagen']['tmp_name']){
+            $image = Image::make($_FILES['imagen']['tmp_name'])->fit(800, 600);
+            $propiedad->setImagen($nombreImagen);
         }
 
-        // Validar tamaño imagen a subir
-        $medida = 1000 * 1000;
-        if ($imagen['size'] > $medida) {
-            $errores[] = "La imagen es demasiado grande";
-        }
-        // echo "<pre>";
-        // var_dump($errores);
-        // echo "<pre>";
+        //Validar
+        $errores = $propiedad->validar();
 
         // revisar si no hay errores
 
         if ( empty($errores) ) {
-
-            /* Subida de archivos*/
-            //Crear Carpeta
-            $carpetaImagenes = '../../imagenes/';
-            if ( !is_dir($carpetaImagenes) ) {
-                mkdir($carpetaImagenes);
+            // crear carpeta
+            if(!is_dir(CARPETA_IMAGENES)) {
+                mkdir(CARPETA_IMAGENES);
             }
-            //generar nombre unico
-            $nombreImagen = md5( uniqid( rand(), true ) ) . ".jpg";
-            // Subir imagen
-            move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
-
-            // Insertar en bbdd
-            $query = "INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, parking, creado, vendedores_id)
-                      VALUES ( '$titulo', $precio, '$nombreImagen', '$descripcion', '$habitaciones', '$wc', '$parking', '$creado', '$vendedores_id' )";
-
-            $resultado = mysqli_query($db, $query);
-
+            // Guardar imagen en el servidor
+            $image->save(CARPETA_IMAGENES . $nombreImagen);
+            //guardar en caarpeta
+            $resultado = $propiedad->guardar();
             if ($resultado) {
                 // Redireccion de usuario
-                header('Location: /admin?resultado=1');
+                header('Location: /bienes/admin');
             } 
         }
     }
@@ -114,7 +65,7 @@
     <main class="contenedor seccion contenido-centrado">
         <h1>Crear</h1>
 
-        <a href="/admin" class="boton boton-verde">Volver</a>
+        <a href="/bienes/admin" class="boton boton-verde">Volver</a>
         <br>
 
         <?php foreach ($errores as $error) : ?>
@@ -123,7 +74,7 @@
             </div>
         <?php endforeach; ?>
 
-        <form method="POST" action="/admin/propiedades/crear.php" class="formulario" enctype="multipart/form-data">
+        <form method="POST" action="/bienes/admin/propiedades/crear.php" class="formulario" enctype="multipart/form-data">
             <fieldset>
                 <legend>Información General</legend>
 
