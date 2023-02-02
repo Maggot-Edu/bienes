@@ -128,6 +128,14 @@ class Propiedad {
         // Devolver resltados
         return $array;
     }
+    // Busca propiedad ID
+    public static function find($id) {
+        $query = "SELECT * FROM propiedades WHERE id=$id";
+
+        $resultado = self::consultarSQL($query);
+
+        return array_shift($resultado);
+    }
     protected static function crearObjeto($registro) {
         $objeto = new self;
         foreach($registro as $key => $value) {

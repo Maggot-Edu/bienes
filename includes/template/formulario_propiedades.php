@@ -9,6 +9,10 @@
 
     <label for="imagen">Imagen:</label>
     <input type="file" id="imagen" name="imagen" accept="image/jpeg, image/png">
+    <?php if ($propiedad->imagen) {?>
+            <img src="/bienes/imagenes/<?php echo $propiedad->imagen; ?>" class="imagen-small">
+    <?php } ?>
+    
 
     <label for="descripcion">Descripción:</label>
     <textarea id="descripcion" name="descripcion"><?php echo escapaHTML($propiedad->descripcion); ?></textarea>
