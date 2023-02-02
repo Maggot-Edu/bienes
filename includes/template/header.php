@@ -34,7 +34,7 @@
                         <a href="/bienes/blog.php">Blog</a>
                         <a href="/bienes/contacto.php">¿Hablamos?</a>
                         <?php if($auth): ?>
-                            <a href="cerrar-session.php">Cerrar Sessión</a>
+                            <a href="/bienes/cerrar-session.php">Cerrar Sessión</a>
                         <?php endif; ?>
                     </nav>
                 </div>

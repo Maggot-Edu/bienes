@@ -109,5 +109,33 @@ class Propiedad {
         }
         return $atributos;
     }
+    // Lista todas las propiedades
+    public static function all(){
+        $query = "SELECT * FROM propiedades";
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
+    public static function consultarSQL($query) {
+        // Consultar BBDD
+        $resultado = self::$db->query($query);
+        // Iterar resultados
+        $array = [];
+        while($registro = $resultado->fetch_assoc()){
+            $array[] = self::crearObjeto($registro);
+        }
+        // Liberar memoria
+        $resultado->free();
+        // Devolver resltados
+        return $array;
+    }
+    protected static function crearObjeto($registro) {
+        $objeto = new self;
+        foreach($registro as $key => $value) {
+            if (property_exists( $objeto, $key )) {
+                $objeto->$key = $value;
+            }
+        }
+        return $objeto;
+    }
 
 }
