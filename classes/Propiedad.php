@@ -72,6 +72,7 @@ class Propiedad {
             $atributos[$columna] = $this->$columna;
         }
         return $atributos;
+        
     }
 
     public static function setDDBB($baseDatos){
