@@ -43,7 +43,7 @@
     <section class="imagen-contacto">
         <h2>Encuentra la casa de tus sueños</h2>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi, iusto veritatis delectus dolor minus minima perferendis error omnis dicta impedit nihil blanditiis tempora unde sapiente aliquam rerum esse corporis velit!</p>
-        <a href="contacto.html" class="boton-amarillo">Contactános</a>    
+        <a href="contacto.php" class="boton-amarillo">Contactános</a>    
     </section>
 
     <div class="contenedor seccion seccion-inferior">
