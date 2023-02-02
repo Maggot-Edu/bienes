@@ -1,5 +1,5 @@
 <?php
-    require '../../includes/funciones.php';
+    require '../../includes/app.php';
     $auth = estadoAutenticado();
     if(!$auth) {
         header('Location: /');
@@ -9,10 +9,10 @@
     $id = filter_var($id, FILTER_VALIDATE_INT);
 
     if (!$id) {
-        header('Location: /admin');
+        header('Location: /bienes/admin');
     }
     
-    require '../../includes/config/ddbb.php';
+    //require '../../includes/config/ddbb.php';
     $db = conexionDB();
 
     // Comsulta obtener datios propiedad
@@ -34,26 +34,10 @@
     $wc             = $propiedad['wc'];
     $parking        = $propiedad['parking'];
     $vendedores_id  = $propiedad['vendedores_id'];
-    $imagen        = $propiedad['imagen'];
+    $imagen         = $propiedad['imagen'];
 
     // inserta datos bbdd
     if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
-
-        // $num = "95hola2";
-        // $num2 = "sdfsdf";
-        // // Sanitizar
-        // $resultado = filter_var($num, FILTER_SANITIZE_NUMBER_INT);
-        // $resultado = filter_var($num2, FILTER_VALIDATE_INT);
-        //var_dump($resultado);
-
-        // echo "<pre>";
-        // var_dump($_POST);
-        // echo "<pre>";
-
-        // echo "<pre>";
-        // var_dump($_FILES);
-        // echo "<pre>";
-
 
         $titulo         = mysqli_real_escape_string( $db,  $_POST['titulo'] );
         $precio         = mysqli_real_escape_string( $db,  $_POST['precio'] );
@@ -129,7 +113,7 @@
 
             if ($resultado) {
                 // Redireccion de usuario
-                header('Location: /admin?resultado=2');
+                header('Location: /bienes/admin?resultado=2');
             } 
         }
 
@@ -141,7 +125,7 @@
     <main class="contenedor seccion contenido-centrado">
         <h1>Actualizar propiedad</h1>
 
-        <a href="/admin" class="boton boton-verde">Volver</a>
+        <a href="/bienes/admin" class="boton boton-verde">Volver</a>
         <br>
 
         <?php foreach ($errores as $error) : ?>

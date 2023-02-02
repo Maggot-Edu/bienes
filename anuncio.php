@@ -28,7 +28,7 @@
     <main class="contenedor seccion contenido-centrado">
         <h1><?php echo $resultado["titulo"]; ?></h1>
 
-        <img loading="lazy"  src="imagenes/<?php echo $resultado["imagen"]; ?>" alt="Imagen destacada de la entrada">
+        <img loading="lazy"  src="/bienes/imagenes/<?php echo $resultado["imagen"]; ?>" alt="Imagen destacada de la entrada">
 
         <div class="resumen-propiedad">
             <p class="precio"><?php echo $resultado["precio"]; ?></p>

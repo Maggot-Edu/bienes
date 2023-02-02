@@ -16,7 +16,7 @@
             </div>
             
             <div class="texto-entrada">
-                <a href="entrada.html">
+                <a href="entrada.php">
                     <h4>Terraza en el techjo de tu casa</h4>
                     <p>Escrito el <span>20/10/2022</span> por: <span>Admin</span></p>
                     <p>Consejos para contruir una terraza en el techo de tu casa sin escatimar en gastos! Todo lujo.</p>
@@ -33,7 +33,7 @@
             </div>
             
             <div class="texto-entrada">
-                <a href="entrada.html">
+                <a href="entrada.php">
                     <h4>Guia decoración de tu hogar</h4>
                     <p>Escrito el <span>20/10/2022</span> por: <span>Admin</span></p>
                     <p>Minimiza el espacio en tu hogar con nuestra guia, y tips de como decorar y ganar.</p>
@@ -50,7 +50,7 @@
             </div>
             
             <div class="texto-entrada">
-                <a href="entrada.html">
+                <a href="entrada.php">
                     <h4>Guia decoración de tu hogar</h4>
                     <p>Escrito el <span>20/10/2022</span> por: <span>Admin</span></p>
                     <p>Minimiza el espacio en tu hogar con nuestra guia, y tips de como decorar y ganar.</p>
@@ -67,7 +67,7 @@
             </div>
             
             <div class="texto-entrada">
-                <a href="entrada.html">
+                <a href="entrada.php">
                     <h4>Guia decoración de tu hogar</h4>
                     <p>Escrito el <span>20/10/2022</span> por: <span>Admin</span></p>
                     <p>Minimiza el espacio en tu hogar con nuestra guia, y tips de como decorar y ganar.</p>
