@@ -24,3 +24,8 @@ function debuguear( $var ) {
     echo "</pre>";
     exit;
 }
+// Escapa html
+function escapaHTML($html) : string {
+    $escapaHTML = htmlspecialchars($html);
+    return $escapaHTML;
+}
