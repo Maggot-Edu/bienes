@@ -29,3 +29,10 @@ function escapaHTML($html) : string {
     $escapaHTML = htmlspecialchars($html);
     return $escapaHTML;
 }
+// Validar tipo de contenido
+
+function validarTipoContenido($tipo) {
+    $tipos = ['vendedor', 'propiedad'];
+
+    return in_array($tipo, $tipos);
+}

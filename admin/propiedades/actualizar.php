@@ -1,6 +1,8 @@
 <?php
 
 use App\Propiedad;
+use App\Vendedor;
+use Intervention\Image\ImageManagerStatic as Image;
 
     require '../../includes/app.php';
     estadoAutenticado();
@@ -15,95 +17,32 @@ use App\Propiedad;
     // Comsulta obtener datios propiedad
     $propiedad = Propiedad::find($id);
 
-    // Consultar para obtener vendedores de bbdd
-    $consulta = "SELECT * FROM vendedores";
-    $resultado = mysqli_query($db, $consulta);
-
+    $vendedores = Vendedor::all();
     //array mensaje errores
-    $errores = [];
+    $errores = Propiedad::getErrores();
 
     // inserta datos bbdd
     if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
+        $args = $_POST['propiedad'];
 
-        $titulo         = mysqli_real_escape_string( $db,  $_POST['titulo'] );
-        $precio         = mysqli_real_escape_string( $db,  $_POST['precio'] );
-        $imagen         = mysqli_real_escape_string( $db,  $_POST['imagen'] );
-        $descripcion    = mysqli_real_escape_string( $db,  $_POST['descripcion'] );
-        $habitaciones   = mysqli_real_escape_string( $db,  $_POST['habitaciones'] );
-        $wc             = mysqli_real_escape_string( $db,  $_POST['wc'] );
-        $parking        = mysqli_real_escape_string( $db,  $_POST['parking'] );
-        $vendedores_id  = mysqli_real_escape_string( $db,  $_POST['vendedores_id'] );
-        $creado         = date('Y/m/d');
-        // Asignart fuiles hacia variable
-        $imagen = $_FILES['imagen'];
-
-        // Validador de datos
-        if (!$titulo) {
-            $errores[] = "Debes añadir un titulo";
+        $propiedad->sincronizar($args);
+        // Validacion
+        $errores = $propiedad->validar();
+        //Subida archivos
+        //generar nombre unico
+        $nombreImagen = md5(uniqid( rand(), true ) ).".jpg";
+        // Realizar  un rizize de la imagen con Intervention
+        if ($_FILES['propiedad']['tmp_name']['imagen']){
+            $imagen = Image::make($_FILES['propiedad']['tmp_name']['imagen'])->fit(800,600);
+            $propiedad->setImagen($nombreImagen);
         }
-        if (!$precio) {
-            $errores[] = "Debes añadir un precio";
-        }
-        if ( strlen( $descripcion ) < 50) {
-            $errores[] = "Debes añadir una descripción con mas de 50 caracteres";
-        }
-        if (!$habitaciones) {
-            $errores[] = "Debes añadir numero de habitaciones";
-        }
-        if (!$wc) {
-            $errores[] = "Debes añadir numero de wc";
-        }
-        if (!$parking) {
-            $errores[] = "Debes añadir numero de parking";
-        }
-        if (!$vendedores_id) {
-            $errores[] = "Debes elegir un vendedores";
-        }
-
-        // Validar tamaño imagen a subir
-        $medida = 1000 * 1000;
-        if ($imagen['size'] > $medida) {
-            $errores[] = "La imagen es demasiado grande";
-        }
-
-        // revisar si no hay errores
-
         if ( empty($errores) ) {
-
-            /* Subida de archivos*/
-            //Crear Carpeta
-            $carpetaImagenes = '../../imagenes/';
-            if ( !is_dir($carpetaImagenes) ) {
-                mkdir($carpetaImagenes);
+            if($_FILES['propiedad']['tmp_name']['imagen']){
+                $imagen->save(CARPETA_IMAGENES . $nombreImagen);
             }
-            $nombreImagen = '';
-            // eliminar imagen previa
-            if ($imagen['name']) {
-                unlink($carpetaImagenes . $propiedad['imagen']);
-                //generar nombre unico
-                $nombreImagen = md5( uniqid( rand(), true ) ) . ".jpg";
-                // Subir imagen
-                move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
-            } else {
-                $nombreImagen = $propiedad['imagen'];
-            }
- 
-
-
             // Insertar en bbdd
-            $query = "UPDATE propiedades 
-                      SET titulo = '${titulo}', precio = ${precio}, imagen = '${nombreImagen}', descripcion = '${descripcion}', habitaciones = ${habitaciones}, wc = ${wc}, parking = ${parking}, vendedores_id = ${vendedores_id} 
-                      WHERE id=${id}";
-
-            $resultado = mysqli_query($db, $query);
-
-            if ($resultado) {
-                // Redireccion de usuario
-                header('Location: /bienes/admin?resultado=2');
-            } 
+            $propiedad->guardar();
         }
-
-
     }
     incluirTemplate( 'header' );
 ?> 

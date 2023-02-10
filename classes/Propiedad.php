@@ -2,14 +2,9 @@
 
 namespace App;
 
-class Propiedad {
-
-    //BBDD
-    protected static $db;
+class Propiedad extends ActiveRecord{
+    protected static $tabla = 'propiedades';
     protected static $columnasDB = [ 'id', 'titulo', 'precio', 'imagen', 'descripcion', 'habitaciones', 'wc', 'parking', 'creado', 'vendedores_id' ];
-
-    //Errores
-    protected static $errores = [];
 
     public $id;
     public $titulo;
@@ -23,13 +18,9 @@ class Propiedad {
     public $vendedores_id;
 
     
-    public static function setDDBB($baseDatos){
-        self::$db = $baseDatos;
-    }
-
     public function __construct( $args = [] )
     {
-        $this->id =            $args['id'] ?? '';
+        $this->id =            $args['id'] ?? NULL;
         $this->titulo =        $args['titulo'] ?? '';
         $this->precio =        $args['precio'] ?? '';
         $this->imagen =        $args['imagen'] ?? '';
@@ -38,40 +29,9 @@ class Propiedad {
         $this->wc =            $args['wc'] ?? '';
         $this->parking =       $args['parking'] ?? '';
         $this->creado =        date('Y/m/d');
-        $this->vendedores_id = $args['vendedores_id'] ?? '1';
+        $this->vendedores_id = $args['vendedores_id'] ?? '';
     }
 
-    public function guardar() {
-        $atributos = $this->sanitizarAtributos();
-        $query = "INSERT INTO propiedades ( ";
-        $query .= join(', ', array_keys($atributos));
-        $query .= " ) VALUES ( \"";
-        $query .= join('", "', array_values($atributos));
-        $query .= " \" ) ";
-        // Sanirtizar Dato
-        $resultado = self::$db->query($query);
-        return $resultado;
-    }
-
-    public function sanitizarAtributos() {
-        $atributos = $this->atributos();
-        $sanitizado = [];
-        foreach($atributos as $key => $value){
-            $sanitizado[$key] = self::$db->escape_string($value);
-        }
-        return $sanitizado;
-    }
-    // Subir imagen
-    public function setImagen($imagen) {
-        // Asigna al atributo de imagen el nombre de la imagen
-        if($imagen) {
-            $this->imagen = $imagen;
-        }
-    }
-    // Validacion
-    public static function getErrores() {
-        return self::$errores;
-    }
     public function validar() {
         // Validador de datos
         if (!$this->titulo) {
@@ -100,50 +60,4 @@ class Propiedad {
         }
         return self::$errores;
     }
-    // Identificar atributos de BBDD
-    public function atributos() {
-        $atributos = [];
-        foreach(self::$columnasDB as $columna) {
-            if($columna === 'id') continue;
-            $atributos[$columna] = $this->$columna;
-        }
-        return $atributos;
-    }
-    // Lista todas las propiedades
-    public static function all(){
-        $query = "SELECT * FROM propiedades";
-        $resultado = self::consultarSQL($query);
-        return $resultado;
-    }
-    public static function consultarSQL($query) {
-        // Consultar BBDD
-        $resultado = self::$db->query($query);
-        // Iterar resultados
-        $array = [];
-        while($registro = $resultado->fetch_assoc()){
-            $array[] = self::crearObjeto($registro);
-        }
-        // Liberar memoria
-        $resultado->free();
-        // Devolver resltados
-        return $array;
-    }
-    // Busca propiedad ID
-    public static function find($id) {
-        $query = "SELECT * FROM propiedades WHERE id=$id";
-
-        $resultado = self::consultarSQL($query);
-
-        return array_shift($resultado);
-    }
-    protected static function crearObjeto($registro) {
-        $objeto = new self;
-        foreach($registro as $key => $value) {
-            if (property_exists( $objeto, $key )) {
-                $objeto->$key = $value;
-            }
-        }
-        return $objeto;
-    }
-
 }

@@ -2,28 +2,28 @@
     require '../../includes/app.php';
 
     use App\Propiedad;
+    use App\Vendedor;
     use Intervention\Image\ImageManagerStatic as Image;
 
     estadoAutenticado();
-    $db = conexionDB();
     $propiedad = new Propiedad();
 
-    // Consultar para obtener vendedores de bbdd
-    $consulta = "SELECT * FROM vendedores";
-    $resultado = mysqli_query($db, $consulta);
+    // Cpmnsulta vendedores
+    $vendedores = Vendedor::all();
+
     //mensaje errores
     $errores = Propiedad::getErrores();
 
     // inserta datos bbdd
     if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
 
-        $propiedad = new Propiedad($_POST);
+        $propiedad = new Propiedad($_POST['propiedad']);
         /* Subida de archivos*/
         //generar nombre unico
         $nombreImagen = md5(uniqid( rand(), true ) ).".jpg";
         // Realizar  un rizize de la imagen con Intervention
-        if ($_FILES['imagen']['tmp_name']){
-            $imagen = Image::make($_FILES['imagen']['tmp_name'])->fit(800,600);
+        if ($_FILES['propiedad']['tmp_name']['imagen']){
+            $imagen = Image::make($_FILES['propiedad']['tmp_name']['imagen'])->fit(800,600);
             $propiedad->setImagen($nombreImagen);
         }
 
@@ -37,14 +37,11 @@
                 mkdir(CARPETA_IMAGENES);
             }
             //Guardar imagen en el servidor
-            $imagen->save(CARPETA_IMAGENES.$nombreImagen);
+            $imagen->save(CARPETA_IMAGENES . $nombreImagen);
             // Guerdar BBDD
-            $resultado = $propiedad->guardar();
+            $propiedad->guardar();
             // Mensaje exito
-            if ($resultado) {
-                // Redireccion de usuario
-                header('Location: /bienes/admin?resultado=1');
-            } 
+ 
         }
     }
     incluirTemplate( 'header' );
