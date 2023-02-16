@@ -1,6 +1,7 @@
 <?php
     require '../includes/app.php';
     estadoAutenticado();
+    // Importar clases
     use App\Propiedad;
     use App\Vendedor;
     // Implementar un metodo para obtener todas las propiedades
@@ -13,9 +14,7 @@
         $id = $_POST['id'];
         $id = filter_var($id, FILTER_VALIDATE_INT);
         if ($id) {
-
-            $tipo = $_POST[''];
-
+            $tipo = $_POST['tipo'];
             if (validarTipoContenido($tipo)) {
                 //compara lo que se va a eliminar
                 if($tipo === 'vendedor') {
@@ -33,17 +32,15 @@
 ?>
     <main class="contenedor">
         <h1>Admin Console</h1>
-        <?php if ( intval($resultado) === 1): ?>
-            <p class="alerta exito">Anuncio Creado correctamente</p>
-        <?php elseif ( intval($resultado) === 2): ?>
-            <p class="alerta exito">Anuncio Actualizado correctamente</p>
-            <?php elseif ( intval($resultado) === 3): ?>
-            <p class="alerta exito">Anuncio Eliminado correctamente</p>
-        <?php endif; ?>
+        <?php
+            $mensaje = mostrarNotificacion( intval($resultado) );
+            if($mensaje) { ?>
+            <p class="alerta exito"><?php echo escapaHTML($mensaje); ?></p>
+        <?php  } ?>
+        
         <br>
-        <a href="/bienes/admin/propiedades/crear.php" class="boton boton-verde">Nueva 
-            Propiedad
-        </a>
+        <a href="/bienes/admin/propiedades/crear.php" class="boton boton-verde">Nueva Propiedad</a>
+        <a href="/bienes/admin/vendedores/crear.php" class="boton boton-amarillo">Nuev@ Vendedor@</a>
         <br>
         <h2>Propiedades</h2>
         <table class="propiedades">
@@ -70,7 +67,7 @@
                             <input type="hidden" name="tipo" value="propiedad">
                             <input type="submit" class="boton-rojo-block" value="Eliminar">
                         </form>
-                        <a href="/bienes/admin/vendedores/actualizar.php?id=<?php echo $propiedad->id ?>" class="boton-amarillo-block" >Actualizar</a>
+                        <a href="/bienes/admin/propiedades/actualizar.php?id=<?php echo $propiedad->id ?>" class="boton-amarillo-block" >Actualizar</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -99,7 +96,7 @@
                             <input type="hidden" name="tipo" value="vendedor">
                             <input type="submit" class="boton-rojo-block" value="Eliminar">
                         </form>
-                        <a href="/bienes/admin/vendedor/actualizar.php?id=<?php echo $vendedor->id ?>" class="boton-amarillo-block" >Actualizar</a>
+                        <a href="/bienes/admin/vendedores/actualizar.php?id=<?php echo $vendedor->id ?>" class="boton-amarillo-block" >Actualizar</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>

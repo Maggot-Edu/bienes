@@ -117,6 +117,12 @@ class ActiveRecord{
         $resultado = self::consultarSQL($query);
         return $resultado;
     }
+    //Obtiene numero determinado de registros
+    public static function get($cantidad){
+        $query = "SELECT * FROM " . static::$tabla . " LIMIT " . $cantidad;
+        $resultado = self::consultarSQL($query);
+        return $resultado;
+    }
     public static function consultarSQL($query) {
         // Consultar BBDD
         $resultado = self::$db->query($query);

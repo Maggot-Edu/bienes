@@ -36,3 +36,23 @@ function validarTipoContenido($tipo) {
 
     return in_array($tipo, $tipos);
 }
+
+// Muestra los mensajes
+function mostrarNotificacion($codigo) {
+    $mensaje = '';
+    switch($codigo) {
+        case 1:
+            $mensaje = 'Creado correctamente';
+            break;
+        case 2:
+            $mensaje = 'Actualizado correctamente';
+            break;
+        case 2:
+            $mensaje = 'Eliminado correctamente';
+            break;
+        default: 
+            $mensaje = false;
+            break;
+    }
+    return $mensaje;
+}
